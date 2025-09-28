@@ -1,0 +1,16 @@
+<h2>Manage Breaking News</h2>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="title" placeholder="Title" required>
+    <textarea name="content" placeholder="Content" required></textarea>
+    <button type="submit">Add Breaking News</button>
+</form>
+
+<h3>Current Breaking News</h3>
+<ul>
+    {% for news in breaking_news %}
+        <li>{{ news.title }} - {{ news.content }}</li>
+    {% empty %}
+        <li>No breaking news yet.</li>
+    {% endfor %}
+</ul>

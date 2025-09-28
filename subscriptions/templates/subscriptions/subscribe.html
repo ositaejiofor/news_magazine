@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Subscribe{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <h2 class="mb-4 text-center">Subscribe</h2>
+
+            <!-- Flash Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form action="{% url 'subscriptions:subscribe' %}" method="POST" class="card p-4 shadow-sm">
+                {% csrf_token %}
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input 
+                        type="email" 
+                        class="form-control" 
+                        id="email" 
+                        name="email" 
+                        value="{{ request.user.email }}"
+                        placeholder="you@example.com"
+                        required>
+                </div>
+
+                <!-- Plan -->
+                <div class="mb-3">
+                    <label for="plan" class="form-label">Choose your plan</label>
+                    <select class="form-select" id="plan" name="plan" required>
+                        <option value="free">Free</option>
+                        <option value="basic">Basic</option>
+                        <option value="premium">Premium</option>
+                    </select>
+                </div>
+
+                <!-- Submit -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </div>
+            </form>
+
+            <!-- Link back to dashboard -->
+            <div class="text-center mt-3">
+                <a href="{% url 'subscriptions:home' %}" class="text-decoration-none">
+                    View My Subscription
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

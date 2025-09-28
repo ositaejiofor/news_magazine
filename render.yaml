@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: news-magazine
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn news_magazine.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: news-magazine-db
+          property: connectionString
+      - key: PYTHONUNBUFFERED
+        value: "1"
+
+databases:
+  - name: news-magazine-db
+    plan: free
+    engine: postgres

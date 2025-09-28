@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}My Subscription{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <h2 class="mb-4 text-center">My Subscription</h2>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if request.user.is_authenticated %}
+                {% if request.user.subscription %}
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Current Plan: 
+                                <span class="badge bg-primary">{{ request.user.subscription.plan|title }}</span>
+                            </h5>
+                            <p class="card-text">
+                                <strong>Status:</strong>
+                                {% if request.user.subscription.active %}
+                                    <span class="text-success">Active ✅</span>
+                                {% else %}
+                                    <span class="text-danger">Inactive ❌</span>
+                                {% endif %}
+                            </p>
+                            <p class="card-text">
+                                <strong>Subscribed on:</strong> {{ request.user.subscription.created_at|date:"F j, Y" }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Update Plan Form -->
+                    <form action="{% url 'subscriptions:subscribe' %}" method="post" class="card p-4 shadow-sm">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="plan" class="form-label">Change Plan</label>
+                            <select class="form-select" id="plan" name="plan" required>
+                                <option value="free" {% if request.user.subscription.plan == "free" %}selected{% endif %}>Free</option>
+                                <option value="basic" {% if request.user.subscription.plan == "basic" %}selected{% endif %}>Basic</option>
+                                <option value="premium" {% if request.user.subscription.plan == "premium" %}selected{% endif %}>Premium</option>
+                            </select>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-outline-primary">Update Subscription</button>
+                        </div>
+                    </form>
+
+                {% else %}
+                    <div class="alert alert-warning text-center">
+                        You don’t have an active subscription yet.
+                    </div>
+                    <div class="text-center">
+                        <a href="{% url 'subscriptions:subscribe' %}" class="btn btn-primary">
+                            Subscribe Now
+                        </a>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="alert alert-info text-center">
+                    Please <a href="{% url 'login' %}">log in</a> to view your subscription.
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

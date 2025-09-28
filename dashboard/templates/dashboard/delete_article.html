@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Delete Article</h1>
+
+    <p>Are you sure you want to delete the article: <strong>{{ article.title }}</strong>?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'dashboard:manage_articles' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

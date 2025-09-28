@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container donate-page">
+  <header class="donate-header">
+    <div class="hero-text">
+      <h1 class="headline">Support My Free Services</h1>
+      <p class="subhead">Your <strong>free-will donation</strong> helps me continue offering valuable resources and services <em>at no cost</em> to my audience.</p>
+    </div>
+  </header>
+
+  <main class="donate-grid">
+    <section class="donate-purpose card" id="purpose">
+      <img src="/static/images/eaglecollins.jpg" alt="Community support" class="donation-image">
+      <div class="purpose-text">
+        <h2>Why Donate?</h2>
+        <p>Your contribution empowers me to maintain, improve, and expand the free services I share. Every donation, small or large, fuels this mission.</p>
+        <ul class="benefits">
+          <li>Keep resources free for everyone</li>
+          <li>Help expand reach to more people</li>
+          <li>Support independent, community-first work</li>
+        </ul>
+      </div>
+    </section>
+
+    <aside class="donate-form card" id="donate">
+      <h2>Choose a Support Level</h2>
+      <div class="tiers" role="radiogroup">
+        <button class="tier" data-amount="10">$10 <small>Basic Support</small></button>
+        <button class="tier" data-amount="25">$25 <small>Sustainer</small></button>
+        <button class="tier selected" data-amount="50">$50 <small>Strong Supporter</small></button>
+        <button class="tier" data-amount="100">$100 <small>Major Contributor</small></button>
+      </div>
+
+      <form id="donationForm" class="form">
+        <label for="amount">Custom amount (USD)</label>
+        <input id="amount" name="amount" type="number" value="50" min="1">
+
+        <div class="form-row">
+          <input id="first" name="first" type="text" placeholder="First name" required>
+          <input id="last" name="last" type="text" placeholder="Last name" required>
+        </div>
+
+        <input id="email" name="email" type="email" placeholder="Email" required>
+
+        <textarea id="message" name="message" rows="3" placeholder="Leave a note (optional)"></textarea>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Donate $<span id="previewAmount">50</span></button>
+          <button type="button" class="btn-secondary" id="paypalBtn">PayPal</button>
+          <button type="button" class="btn-secondary" id="localPaymentBtn">Opay</button>
+        </div>
+
+        <p class="small muted">Donations are voluntary. They support my work so I can keep everything free for you and others.</p>
+
+        <div id="thankyou" class="thankyou" aria-live="polite"></div>
+      </form>
+
+      <div class="contact">
+        <h3>Questions?</h3>
+        <p>Email me: <a href="mailto:ositaejiofor@gmail.com">ositaejiofor@gmail.com</a></p>
+        <p><strong>Local payment (Opay):</strong><br>
+          Account: 8039281188<br>
+          Name: Osita Collins Ejiofor
+        </p>
+      </div>
+
+      <footer>
+        <small>&copy; <span id="year"></span> Free Services Initiative</small>
+      </footer>
+    </aside>
+  </main>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const tiers = document.querySelectorAll('.tier');
+  const amountInput = document.getElementById('amount');
+  const preview = document.getElementById('previewAmount');
+
+  tiers.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tiers.forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      const amt = btn.dataset.amount;
+      amountInput.value = amt;
+      preview.textContent = amt;
+    });
+  });
+
+  amountInput.addEventListener('input', () => {
+    let v = Math.max(1, Math.floor(Number(amountInput.value) || 0));
+    amountInput.value = v;
+    preview.textContent = v;
+  });
+
+  document.getElementById('donationForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const ty = document.getElementById('thankyou');
+    ty.textContent = 'Processing your donation...';
+    setTimeout(() => {
+      ty.textContent = 'Thank you! Your contribution has been received.';
+      ty.classList.add('success');
+    }, 800);
+  });
+
+  document.getElementById('paypalBtn').addEventListener('click', () => {
+    alert('Redirect to PayPal checkout — integrate PayPal SDK here.');
+  });
+
+  document.getElementById('localPaymentBtn').addEventListener('click', () => {
+    alert('Please make your donation to Opay account 8039281188 (Osita Collins Ejiofor). Then send confirmation to ositaejiofor@gmail.com');
+  });
+</script>
+{% endblock content %}

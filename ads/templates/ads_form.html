@@ -1,0 +1,8 @@
+<h1>{% if form.instance.pk %}Edit Ad{% else %}Add Ad{% endif %}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+<a href="{% url 'ads:ads_list' %}">Cancel</a>

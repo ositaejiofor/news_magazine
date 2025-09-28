@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>{{ breakingnews.headline }}</h2>
+  {% if breakingnews.image %}
+    <img src="{{ breakingnews.image.url }}" alt="{{ breakingnews.headline }}" class="img-fluid mb-3 rounded">
+  {% endif %}
+  <p>{{ breakingnews.content }}</p>
+  {% if breakingnews.url %}
+    <p><a href="{{ breakingnews.url }}" target="_blank">Read more</a></p>
+  {% endif %}
+  <p class="text-muted">Published: {{ breakingnews.created_at|date:"M d, Y H:i" }}</p>
+</div>
+{% endblock %}

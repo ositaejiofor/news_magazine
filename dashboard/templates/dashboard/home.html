@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Dashboard</h1>
+  <ul>
+    <li><a href="{% url 'dashboard:manage_articles' %}">Manage Articles</a></li>
+    <li><a href="{% url 'dashboard:manage_comments' %}">Manage Comments</a></li>
+    <li><a href="{% url 'dashboard:analytics' %}">Analytics</a></li>
+  </ul>
+{% endblock %}

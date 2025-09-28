@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<h1>Comment Moderation</h1>
+<ul>
+    {% for comment in comments %}
+    <li>
+        {{ comment.user }} on {{ comment.article.title }}: {{ comment.content }}
+        {% if not comment.approved %}<strong>[Pending]</strong>{% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

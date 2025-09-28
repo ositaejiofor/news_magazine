@@ -1,0 +1,36 @@
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
+from .models import Article, Comment  # assuming you have Comment model
+from .forms import CommentForm
+
+
+@login_required
+def add_comment(request, slug):
+    """Handle AJAX comment/reply submissions via HTMX."""
+    if request.method == "POST":
+        article = get_object_or_404(Article, slug=slug, status="published")
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.article = article
+
+            # Handle reply (parent comment)
+            parent_id = request.POST.get("parent_id")
+            if parent_id:
+                try:
+                    parent = Comment.objects.get(id=parent_id, article=article)
+                    comment.parent = parent
+                except Comment.DoesNotExist:
+                    return HttpResponseBadRequest("Invalid parent comment")
+
+            comment.save()
+
+            # Render only the new comment block
+            html = render_to_string("news/_comment.html", {"comment": comment, "user": request.user})
+            return HttpResponse(html)
+
+        return HttpResponseBadRequest("Invalid form")
+    return HttpResponseBadRequest("Invalid request")

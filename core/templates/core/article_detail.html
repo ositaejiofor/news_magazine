@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>{{ article.title }}</h1>
+    <p><strong>Category:</strong> {{ article.category.name }}</p>
+    <p><strong>Author:</strong> {{ article.author.username }}</p>
+    <p><strong>Published:</strong> {{ article.created_at|date:"F j, Y, g:i a" }}</p>
+    <hr>
+    <div>{{ article.content|linebreaks }}</div>
+</div>
+{% endblock %}

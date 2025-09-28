@@ -1,0 +1,11 @@
+<h1>Tag: {{ tag.name }}</h1>
+<ul>
+    {% for article in articles %}
+        <li>
+            <a href="{% url 'core:article_detail' article.pk %}">{{ article.title }}</a>
+        </li>
+    {% empty %}
+        <li>No articles with this tag.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'core:article_list' %}">Back to All Articles</a>

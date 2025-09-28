@@ -1,0 +1,11 @@
+<h1>Breaking News</h1>
+<ul>
+    {% for news in breaking_news %}
+        <li>
+            <a href="{% url 'core:breaking_news_detail' news.slug %}">{{ news.title }}</a>
+        </li>
+    {% empty %}
+        <li>No breaking news found.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'core:article_list' %}">Back to Articles</a>

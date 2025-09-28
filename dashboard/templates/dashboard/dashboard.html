@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Dashboard</h1>
+
+    <div class="row">
+        <!-- Articles -->
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-primary h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Articles</h5>
+                    <p class="card-text">Manage your articles</p>
+                    <a href="{% url 'dashboard:manage_articles' %}" class="btn btn-light">Go</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comments -->
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-success h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Comments</h5>
+                    <p class="card-text">Moderate user comments</p>
+                    <a href="{% url 'dashboard:manage_comments' %}" class="btn btn-light">Go</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Breaking News -->
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-danger h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Breaking News</h5>
+                    <p class="card-text">Add or edit breaking news</p>
+                    <a href="{% url 'dashboard:manage_breaking_news' %}" class="btn btn-light">Go</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics -->
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-warning h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Analytics</h5>
+                    <p class="card-text">View site statistics</p>
+                    <a href="{% url 'dashboard:analytics' %}" class="btn btn-light">Go</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

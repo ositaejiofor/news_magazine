@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Thank You!</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fafb;
+      color: #333;
+      padding: 20px;
+    }
+    .container {
+      background: #ffffff;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: auto;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #2563eb;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #10b981;
+      color: #fff !important;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 20px;
+    }
+    .footer {
+      font-size: 12px;
+      color: #666;
+      margin-top: 30px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Thank You for Your Donation ❤️</h1>
+    <p>Dear supporter,</p>
+    <p>Thank you for your generous donation of <strong>${{ amount }}</strong>. Your contribution helps us continue our mission and make a real difference in the lives of those we serve.</p>
+    <p>We are grateful for your support and hope you feel proud of the impact you are making!</p>
+    <a href="https://yourwebsite.com" class="btn">Visit Our Website</a>
+    <div class="footer">
+      &copy; {{ year }} Your Organization. All rights reserved.
+    </div>
+  </div>
+</body>
+</html>

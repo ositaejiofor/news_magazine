@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+{% load news_tags %}
+
+{% block title %}News Magazine{% endblock %}
+
+{% block content %}
+
+<!-- ================= Hero Carousel ================= -->
+<div id="heroCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    {% for article in featured_articles %}
+    <div class="carousel-item {% if forloop.first %}active{% endif %}" style="position:relative;">
+      <img src="{{ article.featured_image.url }}" class="d-block w-100" alt="{{ article.title }}">
+      
+      <!-- Animated Badge -->
+      {% for category in article.categories.all %}
+      <span class="hero-badge bg-primary show">{{ category.name }}</span>
+      {% endfor %}
+      
+      <div class="carousel-caption d-none d-md-block text-start">
+        <h2 class="fw-bold">{{ article.title|truncatechars:60 }}</h2>
+        <p>{{ article.summary|truncatechars:120 }}</p>
+        <a href="{% url 'news:article_detail' article.pk %}" class="btn btn-primary">Read More</a>
+      </div>
+    </div>
+    {% empty %}
+    <div class="carousel-item active">
+      <img src="{% static 'images/placeholder.png' %}" class="d-block w-100" alt="No Featured Article">
+      <div class="carousel-caption d-none d-md-block text-start">
+        <h2>No Featured Articles</h2>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<!-- ================= Articles Grid ================= -->
+<div class="row g-4">
+  {% for article in articles %}
+  <div class="col-md-4">
+    <div class="dark-card h-100">
+      <div class="card-img-container">
+        {% if article.featured_image %}
+        <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="zoom-img">
+        {% else %}
+        <img src="{% static 'images/placeholder.png' %}" alt="Placeholder" class="zoom-img">
+        {% endif %}
+      </div>
+      <div class="p-3">
+        <h5 class="fw-bold text-truncate">{{ article.title }}</h5>
+
+        <!-- Categories Badges -->
+        {% for category in article.categories.all %}
+        <span class="badge bg-info animated-badge">{{ category.name }}</span>
+        {% endfor %}
+
+        <p class="text-truncate mt-2">{{ article.summary|truncatechars:120 }}</p>
+
+        <!-- Author & Comments -->
+        <div class="d-flex align-items-center justify-content-between mt-3">
+          <div class="d-flex align-items-center">
+            {% if article.author.profile.avatar %}
+            <img src="{{ article.author.profile.avatar.url }}" alt="{{ article.author.username }}" class="avatar-border me-2" width="35" height="35">
+            {% else %}
+            <img src="{% static 'images/avatar-placeholder.png' %}" alt="{{ article.author.username }}" class="avatar-border me-2" width="35" height="35">
+            {% endif %}
+            <small>{{ article.author.username }}</small>
+          </div>
+          <small><i class="bi bi-chat-dots"></i> {{ article.comments.count }}</small>
+        </div>
+
+        <a href="{% url 'news:article_detail' article.pk %}" class="btn btn-primary w-100 mt-3">Read More</a>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-12">
+    <div class="text-center p-5 bg-secondary rounded shadow-sm text-light">
+      <h2>No Articles Found</h2>
+      <p class="lead">Check back later for the latest news.</p>
+      <a href="{% url 'news:breaking_news_list' %}" class="btn btn-primary mt-3">View Breaking News</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% load static %}
+{% load news_tags %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm mb-4">
+  <div class="container-fluid">
+    <!-- Brand / Logo -->
+    <a class="navbar-brand fw-bold" href="{% url 'core:home' %}">
+      <img src="{% static 'images/logo.png' %}" alt="Eagle Logo" width="100" class="me-2">
+      News Magazine
+    </a>
+
+    <!-- Toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" 
+            aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Menu -->
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+        <!-- Home -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'core:home' %}">Home</a>
+        </li>
+
+        <!-- Breaking News -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'news:public_breakingnews_list' %}">Breaking News</a>
+        </li>
+
+        <!-- Categories Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" 
+             data-bs-toggle="dropdown" aria-expanded="false">
+            Categories
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+            {% for category in get_all_categories %}
+              <li>
+                <a class="dropdown-item" href="{% url 'news:category_detail' category.slug %}">
+                  {{ category.name }}
+                </a>
+              </li>
+            {% empty %}
+              <li><span class="dropdown-item">No categories available</span></li>
+            {% endfor %}
+          </ul>
+        </li>
+
+        <!-- Tags Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="tagsDropdown" role="button" 
+             data-bs-toggle="dropdown" aria-expanded="false">
+            Tags
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="tagsDropdown">
+            {% for tag in get_all_tags %}
+              <li>
+                <a class="dropdown-item" href="{% url 'news:tag_detail' tag.slug %}">
+                  {{ tag.name }}
+                </a>
+              </li>
+            {% empty %}
+              <li><span class="dropdown-item">No tags available</span></li>
+            {% endfor %}
+          </ul>
+        </li>
+
+        <!-- Auth Links -->
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'dashboard:dashboard_home' %}">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>
+          </li>
+        {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</nav>

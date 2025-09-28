@@ -1,0 +1,85 @@
+<!-- ================= FOOTER START ================= -->
+<footer class="bg-dark text-light pt-5 mt-5">
+  <div class="container">
+    <div class="row gy-4">
+
+      <!-- BRAND / LOGO -->
+      <div class="col-md-3">
+        <h5 class="fw-bold">News Magazine</h5>
+        <p class="small">
+          Your trusted source for news, analysis, and insights. 
+          Join our community and stay informed.
+        </p>
+      </div>
+
+      <!-- SOCIAL MEDIA -->
+      <div class="col-md-3">
+        <h5 class="fw-bold">Follow Us</h5>
+        <div class="d-flex gap-3 fs-4">
+          <a href="https://facebook.com" target="_blank" aria-label="Facebook" class="text-light social-hover"><i class="bi bi-facebook"></i></a>
+          <a href="https://twitter.com" target="_blank" aria-label="Twitter" class="text-light social-hover"><i class="bi bi-twitter"></i></a>
+          <a href="https://instagram.com" target="_blank" aria-label="Instagram" class="text-light social-hover"><i class="bi bi-instagram"></i></a>
+          <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn" class="text-light social-hover"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+
+      <!-- SUPPORT LINKS -->
+      <div class="col-md-3">
+        <h5 class="fw-bold">Support Us</h5>
+        <ul class="list-unstyled">
+          <li><a href="/donate/" class="text-light text-decoration-none hover-link">Donate</a></li>
+        </ul>
+      </div>
+
+      <!-- NEWSLETTER SIGNUP -->
+      <div class="col-md-3">
+        <h5 class="fw-bold">Newsletter</h5>
+        <p class="small">Subscribe to get the latest updates directly in your inbox.</p>
+        <form action="{% url 'subscriptions:subscribe' %}" method="post" class="d-flex">
+          {% csrf_token %}
+          <input type="email" name="email" placeholder="Your email" class="form-control me-2" required>
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+      </div>
+
+    </div>
+
+    <hr class="bg-secondary my-4">
+
+    <!-- FOOTER BOTTOM -->
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <p class="mb-0 small">&copy; {{ now|date:"Y" }} News Magazine. All Rights Reserved.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <a href="/privacy/" class="text-light text-decoration-none me-3 hover-link">Privacy Policy</a>
+        <a href="/terms/" class="text-light text-decoration-none hover-link">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- FOOTER STYLES -->
+<style>
+  .social-hover {
+    transition: transform 0.3s, color 0.3s;
+  }
+  .social-hover:hover {
+    color: #0d6efd; /* Bootstrap primary color */
+    transform: scale(1.2);
+  }
+  .hover-link {
+    transition: color 0.3s, text-decoration 0.3s;
+  }
+  .hover-link:hover {
+    color: #0d6efd;
+    text-decoration: underline;
+  }
+  footer input.form-control {
+    border-radius: 0.25rem 0 0 0.25rem;
+  }
+  footer button.btn {
+    border-radius: 0 0.25rem 0.25rem 0;
+  }
+</style>
+<!-- ================= FOOTER END ================= -->

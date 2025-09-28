@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% load news_tags %}
+
+{% block content %}
+<div class="container mt-5">
+
+  <!-- Featured Articles Top 3 -->
+  <h2 class="mb-4">Latest Articles</h2>
+  <div class="row">
+    {% for article in latest_articles|slice:":3" %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          {% if article.image %}
+            <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}">
+          {% else %}
+            <img src="{% static 'images/article_placeholder.png' %}" class="card-img-top" alt="Article image placeholder">
+          {% endif %}
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ article.title }}</h5>
+            <p class="card-text">{{ article.content|truncatewords:20 }}</p>
+            <a href="{% url 'news:article_detail' article.slug %}" class="btn btn-primary mt-auto">Read More</a>
+          </div>
+          <div class="card-footer text-muted">
+            By {{ article.author.username }} | {{ article.created_at|date:"M d, Y" }}
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-muted">No articles available yet.</p>
+    {% endfor %}
+  </div>
+
+  <!-- Categories Section -->
+  <h2 class="mt-5 mb-3">Categories</h2>
+  <div class="d-flex flex-wrap mb-5">
+    {% for category in get_all_categories %}
+      <a href="{% url 'news:category_detail' category.slug %}" class="btn btn-outline-secondary m-1">{{ category.name }}</a>
+    {% empty %}
+      <p class="text-muted">No categories available.</p>
+    {% endfor %}
+  </div>
+
+  <!-- Tags Section -->
+  <h2 class="mb-3">Tags</h2>
+  <div class="d-flex flex-wrap mb-5">
+    {% for tag in get_all_tags %}
+      <a href="{% url 'news:tag_detail' tag.slug %}" class="btn btn-outline-info m-1">{{ tag.name }}</a>
+    {% empty %}
+      <p class="text-muted">No tags available.</p>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

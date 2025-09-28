@@ -1,0 +1,11 @@
+<h1>Category: {{ category.name }}</h1>
+<ul>
+    {% for article in articles %}
+        <li>
+            <a href="{% url 'core:article_detail' article.pk %}">{{ article.title }}</a>
+        </li>
+    {% empty %}
+        <li>No articles in this category.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'core:article_list' %}">Back to All Articles</a>

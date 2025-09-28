@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <!-- Article Section -->
+    <div class="card shadow-sm mb-4">
+        {% if article.image %}
+            <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}">
+        {% endif %}
+        <div class="card-body">
+            <h1 class="card-title">{{ article.title }}</h1>
+            <p class="text-muted mb-1">
+                By {{ article.author }} • {{ article.published_at|date:"M d, Y" }}
+            </p>
+            <hr>
+            <div class="card-text">
+                {{ article.content|linebreaks }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Comment Form (Top-level) -->
+    <div class="mb-4">
+        <h4 class="mb-3">Leave a Comment</h4>
+        {% if user.is_authenticated %}
+            <form method="post" data-url="{% url 'news:ajax_post_comment' %}" class="comment-form"> <!-- ✅ -->
+                {% csrf_token %}
+                {{ comment_form|crispy }}
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+            </form>
+        {% else %}
+            <p><a href="{% url 'login' %}">Login</a> to comment.</p>
+        {% endif %}
+    </div>
+
+    <!-- Comments Section -->
+    <h4 class="mb-3">Comments ({{ comments.count }})</h4>
+    <div class="ps-2">
+
+        {% for comment in comments %}
+            <div class="mb-3">
+
+                <!-- Top-level comment -->
+                <div>
+                    <strong>{{ comment.user.username }}</strong>
+                    <small class="text-muted ms-2">{{ comment.created_at|date:"M d, Y H:i" }}</small>
+                    <p class="mb-1">{{ comment.content }}</p>
+
+                    {% if user.is_authenticated %}
+                        <a class="btn btn-sm btn-link p-0 text-decoration-none"
+                           data-bs-toggle="collapse" href="#replyForm{{ comment.id }}" role="button">
+                            Reply
+                        </a>
+                    {% endif %}
+                </div>
+
+                <!-- Collapsible Reply Form -->
+                <div class="collapse mt-2" id="replyForm{{ comment.id }}">
+                    <form method="post"
+                          class="ms-3 reply-form"
+                          data-url="{% url 'news:ajax_post_comment' %}"> <!-- ✅ -->
+                        {% csrf_token %}
+                        <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                        {{ reply_form|crispy }}
+                        <button type="submit" class="btn btn-sm btn-primary">Submit Reply</button>
+                    </form>
+                </div>
+
+                <!-- Replies (Inline and Collapsible) -->
+                {% for reply in comment.replies.all %}
+                    <div class="ms-4 mt-2 border-start ps-3">
+                        <div>
+                            <strong>{{ reply.user.username }}</strong>
+                            <small class="text-muted ms-2">{{ reply.created_at|date:"M d, Y H:i" }}</small>
+                            <p class="mb-1">{{ reply.content }}</p>
+
+                            {% if user.is_authenticated %}
+                                <a class="btn btn-sm btn-link p-0 text-decoration-none"
+                                   data-bs-toggle="collapse" href="#replyToReplyForm{{ reply.id }}" role="button">
+                                    Reply
+                                </a>
+                            {% endif %}
+                        </div>
+
+                        <!-- Collapsible Form for Reply to a Reply -->
+                        <div class="collapse mt-2" id="replyToReplyForm{{ reply.id }}">
+<form method="post" class="ajax-comment-form" data-url="{% url 'news:ajax_post_comment' %}">
+    {% csrf_token %}
+    {{ comment_form|crispy }}
+    <button type="submit" class="btn btn-primary">Post Comment</button>
+</form>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% empty %}
+            <p>No comments yet. Be the first!</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'your_app/js/comments.js' %}"></script> <!-- ✅ -->
+{% endblock %}

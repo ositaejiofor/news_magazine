@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Subscription Successful{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+
+            <div class="card shadow-sm p-5">
+                <div class="mb-4">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+                </div>
+
+                <h1 class="mb-3">Thank You!</h1>
+                <p class="lead">🎉 Your subscription was activated successfully.</p>
+
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
+                    <a href="{% url 'subscriptions:home' %}" class="btn btn-outline-secondary">
+                        Manage Subscription
+                    </a>
+                    <a href="{% url 'news:article_list' %}" class="btn btn-primary">
+                        Browse News
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

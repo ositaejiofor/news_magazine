@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<h1>Dashboard Home</h1>
+<p>Articles: {{ articles_count }}</p>
+<p>Comments: {{ comments_count }}</p>
+
+<canvas id="chart" width="400" height="200"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('chart').getContext('2d');
+const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Articles', 'Comments'],
+        datasets: [{
+            label: 'Count',
+            data: [{{ articles_count }}, {{ comments_count }}],
+            backgroundColor: ['#007bff', '#28a745']
+        }]
+    }
+});
+</script>
+{% endblock %}
