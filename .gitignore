@@ -1,66 +1,30 @@
-# =========================================
-# Python
-# =========================================
-__pycache__/
+echo "__pycache__/
 *.py[cod]
 *.pyo
 *.pyd
-*.so
-*.egg
-*.egg-info/
-dist/
-build/
-.eggs/
-
-# =========================================
-# Django
-# =========================================
+*.pkl
 *.log
-*.pot
-*.pyc
-*.mo
-db.sqlite3
-media/
-local_settings.py
 
-# =========================================
-# Environment / Secrets
-# =========================================
-.env
-*.env
-.env.*
-
-# =========================================
-# Virtual environments
-# =========================================
 .venv/
+env/
 venv/
 ENV/
-env.bak/
-env/
 
-# =========================================
-# Static files
-# =========================================
+db.sqlite3
+*.mo
+*.pot
+*.pyc
+media/
 staticfiles/
-static/CACHE/
 
-# =========================================
-# IDE / Editor junk
-# =========================================
 .vscode/
 .idea/
-*.swp
-*.swo
-*~
+
 .DS_Store
 Thumbs.db
 
-# =========================================
-# Render / Heroku
-# =========================================
-# Node modules (if you use npm/yarn for frontend)
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+.env
+
+.coverage
+htmlcov/
+.pytest_cache/" > .gitignore
