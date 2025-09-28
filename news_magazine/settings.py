@@ -29,7 +29,7 @@ ALLOWED_HOSTS = config(
 
 CSRF_TRUSTED_ORIGINS = config(
     "DJANGO_CSRF_TRUSTED_ORIGINS",
-    default="http://127.0.0.1:8000,http://localhost:8000",
+    default="http://127.0.0.1:8000,https://news-magazine-1hiw.onrender.com/",
     cast=Csv(),
 )
 
